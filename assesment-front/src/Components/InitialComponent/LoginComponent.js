@@ -1,13 +1,24 @@
-import { React, useRef } from 'react';
+import { React, useRef, useContext } from 'react';
 import './Login.component.css';
+import AppContext from '../../store/AppContext';
 
 function LoginComponent() {
+	const currentAppContext = useContext(AppContext);
 	const emailRef = useRef(null);
 	const emailTwoRef = useRef(null);
 
+	function handleSubmit(event) {
+		event.preventDefault();
+		if (emailRef.current.value == emailTwoRef.current.value) {
+			currentAppContext.setStep(++currentAppContext.step);
+		} else {
+			window.alert("Emails don't match");
+		}
+	}
+
 	return (
 		<div className='login-form'>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<div className='input-container'>
 					<label htmlFor='email'>Email: </label>
 					<input
