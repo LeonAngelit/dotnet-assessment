@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
-function FarewellComponent() {
+function FarewellComponent(props) {
 	const results = [
 		{ name: 'DATA', afinity: 50 },
 		{ name: 'LOGISTICS', afinity: 80 },
@@ -24,7 +24,7 @@ function FarewellComponent() {
 				<Bar
 					dataKey='afinity'
 					barSize={50}
-					fill='#8884d8'
+					fill={props.color}
 				/>
 			</BarChart>
 		</div>
