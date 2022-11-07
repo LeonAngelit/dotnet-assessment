@@ -1,7 +1,7 @@
 import React from "react";
 
 function FarewellComponent() {
-    return(<div>Farewell Component</div>)
+  return <div>Data sent correctly</div>;
 }
 
 export default FarewellComponent;
