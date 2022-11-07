@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import LoginComponent from './Components/InitialComponent/LoginComponent';
+import Main from './Components/Main';
 
 function App() {
 	return (
@@ -8,7 +8,7 @@ function App() {
 			<Route
 				path='/'
 				exact={true}
-				element={<LoginComponent />}
+				element={<Main />}
 			/>
 		</Routes>
 	);
