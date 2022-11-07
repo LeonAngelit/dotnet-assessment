@@ -14,6 +14,7 @@ public class QuestionaryContext : DbContext
     {
 
 
+
         modelBuilder.Entity<Question>(question =>
         {
             question.ToTable("questions");

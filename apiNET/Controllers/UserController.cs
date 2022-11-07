@@ -23,19 +23,23 @@ public class UserController : ControllerBase
 
     [HttpPost]
     public IActionResult Post([FromBody] User user)
+
     {
-        return Ok(userService.Save(user));
+        userService.Save(user);
+        return Ok();
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] User user)
     {
-        return Ok(userService.Update(id, user));
+        userService.Update(id, user);
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        return Ok(userService.Delete(id));
+        userService.Delete(id);
+        return Ok();
     }
 }

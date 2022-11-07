@@ -17,14 +17,14 @@ public class UserService : IUserService
         return context.Users;
     }
 
-    public async Task Save(User user)
+    public void Save(User user)
     {
         context.Add(user);
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
-    public async Task Update(int id, User user)
+    public void Update(int id, User user)
     {
         var currentUser = context.Users.Find(id);
         if (currentUser != null)
@@ -34,10 +34,10 @@ public class UserService : IUserService
 
         }
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
-    public async Task Delete(int id)
+    public void Delete(int id)
     {
         var currentUser = context.Users.Find(id);
         if (currentUser != null)
@@ -45,14 +45,14 @@ public class UserService : IUserService
             context.Remove(currentUser);
         }
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 }
 
 public interface IUserService
 {
     IEnumerable<User> Get();
-    Task Save(User user);
-    Task Delete(int id);
-    Task Update(int id, User user);
+    void Save(User user);
+    void Delete(int id);
+    void Update(int id, User user);
 }

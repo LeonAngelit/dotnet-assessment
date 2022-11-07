@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using apiNET.Models;
 using apiNET.Services;
 
+
 namespace apiNET.Controllers;
 
 [ApiController]
@@ -23,19 +24,24 @@ public class QuestionController : ControllerBase
 
     [HttpPost]
     public IActionResult Post([FromBody] Question question)
+
     {
-        return Ok(questionService.Save(question));
+
+        questionService.Save(question);
+        return Ok();
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Question question)
     {
-        return Ok(questionService.Update(id, question));
+        questionService.Update(id, question);
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        return Ok(questionService.Delete(id));
+        questionService.Delete(id);
+        return Ok();
     }
 }

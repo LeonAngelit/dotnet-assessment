@@ -4,7 +4,7 @@ namespace apiNET.Services;
 
 public class QuestionService : IQuestionService
 {
-    QuestionaryContext context;
+    readonly QuestionaryContext context;
 
     public QuestionService(QuestionaryContext questionContext)
     {
@@ -16,14 +16,15 @@ public class QuestionService : IQuestionService
         return context.Questions;
     }
 
-    public async Task Save(Question question)
+    public void Save(Question question)
     {
         context.Add(question);
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
+
     }
 
-    public async Task Update(int id, Question question)
+    public void Update(int id, Question question)
     {
         var currentQuestion = context.Questions.Find(id);
         if (currentQuestion != null)
@@ -34,10 +35,10 @@ public class QuestionService : IQuestionService
 
         }
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
-    public async Task Delete(int id)
+    public void Delete(int id)
     {
         var currentQuestion = context.Questions.Find(id);
         if (currentQuestion != null)
@@ -45,14 +46,14 @@ public class QuestionService : IQuestionService
             context.Remove(currentQuestion);
         }
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 }
 
 public interface IQuestionService
 {
     IEnumerable<Question> Get();
-    Task Save(Question question);
-    Task Delete(int id);
-    Task Update(int id, Question question);
+    void Save(Question question);
+    void Delete(int id);
+    void Update(int id, Question question);
 }
