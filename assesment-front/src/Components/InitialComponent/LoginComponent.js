@@ -17,6 +17,9 @@ function LoginComponent() {
     ) {
       currentAppContext.setStep(++currentAppContext.step);
     } else {
+      document
+        .getElementsByClassName("errorSpan")[0]
+        .classList.remove("invisible");
     }
   }
 
@@ -40,7 +43,7 @@ function LoginComponent() {
           <input type="submit" defaultValue="Accept" onClick={handleClick} />
         </div>
       </form>
-      <span className="">The emails don't match</span>
+      <span className="errorSpan invisible">The emails don't match</span>
     </div>
   );
 }
