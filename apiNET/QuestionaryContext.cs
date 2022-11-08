@@ -32,7 +32,7 @@ public class QuestionaryContext : DbContext
             user.ToTable("users");
             user.HasKey(p => p.Id);
             user.Property(p => p.email).IsRequired().HasMaxLength(60);
-            user.Property(p => p.results).IsRequired();
+            user.Property(p => p.answers).IsRequired();
 
         });
     }

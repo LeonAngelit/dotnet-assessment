@@ -1,11 +1,31 @@
-import { React, useContext, useRef } from "react";
+import { React, useContext, useRef, useEffect } from "react";
 import AppContext from "../../store/AppContext";
 import "./Login.component.css";
+import axios from "axios";
 
 function LoginComponent() {
   const emailRef = useRef(null);
   const emailTwoRef = useRef(null);
   const currentAppContext = useContext(AppContext);
+
+  useEffect(() => {
+    if (currentAppContext.questions.length == 0) {
+      getQuestions();
+	  
+    }
+  }, []);
+
+  function getQuestions() {
+    axios
+      .get("https://localhost:7010/api/Question", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        currentAppContext.setQuestions(response.data);
+      });
+  }
 
   function handleClick(e) {
     e.preventDefault();

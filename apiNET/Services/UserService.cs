@@ -30,7 +30,7 @@ public class UserService : IUserService
         if (currentUser != null)
         {
             currentUser.email = user.email;
-            currentUser.results = user.results;
+            currentUser.answers = user.answers;
 
         }
 
