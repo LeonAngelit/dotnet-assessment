@@ -20,8 +20,52 @@ public class ExampleTest
         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
         driver.Navigate().GoToUrl("http://localhost:3000");
     }
-
     [Test, Order(1)]
+    public void EmptyEmailsShouldReturnError()
+    {
+
+        IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
+        IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
+
+
+        Thread.Sleep(1000);
+
+
+
+
+
+        driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
+
+        Thread.Sleep(3000);
+        string error = driver.FindElement(By.XPath("//*[@id='root']/div/div/span")).Text;
+
+        Assert.AreEqual(error, "The emails field cannot be empty");
+    }
+
+
+    [Test, Order(2)]
+    public void InvalidEmailsShouldReturnError()
+    {
+
+        IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
+        IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
+
+
+        Thread.Sleep(1000);
+
+
+
+
+
+        driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
+
+        Thread.Sleep(3000);
+        string error = driver.FindElement(By.XPath("//*[@id='root']/div/div/span")).Text;
+
+        Assert.AreEqual(error, "Write a valid email \"example@example.com\"");
+    }
+
+    [Test, Order(3)]
     public void DifferentEmailsShouldReturnError()
     {
 
@@ -44,7 +88,7 @@ public class ExampleTest
         Assert.AreEqual(error, "The emails don't match");
     }
 
-    [Test, Order(2)]
+    [Test, Order(4)]
     public void RightEmailsShoulgoNextStep()
     {
 
@@ -67,7 +111,24 @@ public class ExampleTest
         Assert.That(title.Contains("Question"));
     }
 
-    [Test, Order(3)]
+    [Test, Order(4)]
+    public void UserOnlySeesOneQuestion()
+    {
+
+        Thread.Sleep(1000);
+        IWebElement questions = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]"));
+        Thread.Sleep(3000);
+
+        List<IWebElement> questionsAmmount = questions.FindElements(By.XPath("./child::*")).ToList();
+
+
+
+
+
+        Assert.That(questionsAmmount.Count == 1);
+    }
+
+    [Test, Order(5)]
     public void AnswerQuestionShouldReturnNextQuestion()
     {
 
@@ -85,7 +146,7 @@ public class ExampleTest
         Assert.That(title.Contains("2"));
     }
 
-    [Test, Order(4)]
+    [Test, Order(6)]
     public void AnswerAllQuestionsShouldReturnNextResults()
     {
         IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
@@ -103,6 +164,29 @@ public class ExampleTest
 
 
         Thread.Sleep(2000);
+        string results = driver.FindElement(By.XPath("//*[@id='root']/div/div/h2")).Text;
+
+        Assert.That(results.Contains("Results"));
+    }
+
+    [Test, Order(7)]
+    public void UsedEmailsShoulgoToResults()
+    {
+
+        IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
+        IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
+
+        emailOne.Clear();
+        emailTwo.Clear();
+
+        emailOne.SendKeys("admin@mail.com");
+        Thread.Sleep(1000);
+
+        emailTwo.SendKeys("admin@mail.com");
+
+        driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
+
+        Thread.Sleep(3000);
         string results = driver.FindElement(By.XPath("//*[@id='root']/div/div/h2")).Text;
 
         Assert.That(results.Contains("Results"));
