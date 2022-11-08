@@ -1,6 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-
+using OpenQA.Selenium.Interactions;
 using WebDriverManager.DriverConfigs.Impl;
 
 namespace Tests;
@@ -8,9 +8,6 @@ namespace Tests;
 [TestFixture]
 public class ExampleTest
 {
-
-
-
     IWebDriver driver = new ChromeDriver();
 
 
@@ -109,21 +106,32 @@ public class ExampleTest
     [Test, Order(5)]
     public void UserOnlySeesOneQuestion()
     {
-
         Thread.Sleep(1000);
         IWebElement questions = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]"));
         Thread.Sleep(3000);
 
         List<IWebElement> questionsAmmount = questions.FindElements(By.XPath("./child::*")).ToList();
 
-
-
-
-
         Assert.That(questionsAmmount.Count == 1);
     }
 
     [Test, Order(6)]
+    public void ButtonChangesHover()
+    {
+        Thread.Sleep(1000);
+        IWebElement inputButton = driver.FindElement(By.XPath("//*[@id=\"root\"]/div/div/form/div[3]/input"));
+        Actions action = new Actions(driver);
+
+        var background = inputButton.GetCssValue("background-color");
+
+        action.MoveToElement(inputButton).Perform();
+        var backgroundHover = inputButton.GetCssValue("background-color");
+
+        Assert.That(!background.Equals(backgroundHover));
+    }
+
+
+    [Test, Order(7)]
     public void AnswerQuestionShouldReturnNextQuestion()
     {
 
@@ -141,12 +149,12 @@ public class ExampleTest
         Assert.That(title.Contains("2"));
     }
 
-    [Test, Order(7)]
-    public void AnswerAllQuestionsShouldReturnNextResults()
+    [Test, Order(8)]
+    public void AnswerAllQuestionsShouldReturnQuestionNumber()
     {
         IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
 
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < 13; i++)
         {
             IWebElement answer = driver.FindElement(By.Id("1"));
             Thread.Sleep(1000);
@@ -157,6 +165,30 @@ public class ExampleTest
 
         }
 
+        Thread.Sleep(2000);
+        string title = driver.FindElement(By.XPath("//*[@id='root']/div/div/h2")).Text;
+
+        Assert.That(title.Contains("15"));
+    }
+
+    [Test, Order(9)]
+    public void WhenLastQuestionButtonReadsOtherText()
+    {
+        Thread.Sleep(3000);
+        string save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).GetProperty("value");
+        Assert.Equals("Send Questions", save);
+    }
+
+    [Test, Order(10)]
+    public void AnswerLastQuestionShouldReturnResults()
+    {
+        IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
+
+        IWebElement answer = driver.FindElement(By.Id("1"));
+        Thread.Sleep(1000);
+
+        answer.Click();
+        save.Click();
 
         Thread.Sleep(2000);
         string results = driver.FindElement(By.XPath("//*[@id='root']/div/div/h2")).Text;
@@ -164,7 +196,7 @@ public class ExampleTest
         Assert.That(results.Contains("Results"));
     }
 
-    [Test, Order(8)]
+    [Test, Order(11)]
     public void UsedEmailsShoulgoToResults()
     {
         driver.Navigate().Refresh();
