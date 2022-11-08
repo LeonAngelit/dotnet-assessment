@@ -7,7 +7,7 @@ function FarewellComponent(props) {
 	const currentAppContext = useContext(AppContext);
 	const temporalAnswer = { ...currentAppContext.answer };
 
-	const results = [
+	const results = currentAppContext.results || [
 		{
 			name: 'DATA',
 			afinity: Math.round(

@@ -76,7 +76,10 @@ function LoginComponent() {
           currentAppContext.setUserEmail(emailRef.current.value);
           currentAppContext.setStep(++currentAppContext.step);
         } else {
+          console.log(response.data)
           document.getElementById("registered").classList.remove("invisible");
+          currentAppContext.setResults(JSON.parse(response.data[0].answers))
+          currentAppContext.setStep(3);
         }
       });
   }
