@@ -1,8 +1,6 @@
 import { React, createContext, useState } from "react";
 
-let initialAppContext = JSON.parse(
-  window.localStorage.getItem("app-context")
-) || {
+let initialAppContext = {
   step: 1,
   userEmail: false,
   answer: {
@@ -58,7 +56,7 @@ export function AppContextProvider(props) {
     setQuestions: handleQuestions,
   };
 
-  window.localStorage.setItem("app-context", JSON.stringify(context));
+  // window.localStorage.setItem("app-context", JSON.stringify(context));
 
   return (
     <AppContext.Provider value={context}>{props.children}</AppContext.Provider>

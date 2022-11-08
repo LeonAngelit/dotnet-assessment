@@ -61,7 +61,7 @@ function FarewellComponent(props) {
 			}
 		)
 		.then((response) => {
-			window.localStorage.removeItem('app-context');
+			// window.localStorage.removeItem('app-context');
 		});
 
 	return (
