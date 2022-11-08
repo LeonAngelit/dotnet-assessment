@@ -130,8 +130,22 @@ public class ExampleTest
         Assert.That(!background.Equals(backgroundHover));
     }
 
-
     [Test, Order(7)]
+    public void EmptyAnswerShouldShowErrorMessage()
+    {
+
+
+
+        driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
+
+
+        string error = driver.FindElement(By.XPath("//*[@id='emptyAnswer']")).Text;
+
+        Assert.That(error.Contains("You have to choose an answer before continue"));
+    }
+
+
+    [Test, Order(8)]
     public void AnswerQuestionShouldReturnNextQuestion()
     {
 
@@ -148,7 +162,7 @@ public class ExampleTest
         Assert.That(title.Contains("2"));
     }
 
-    [Test, Order(8)]
+    [Test, Order(9)]
     public void AnswerAllQuestionsShouldReturnQuestionNumber()
     {
         IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
@@ -170,7 +184,7 @@ public class ExampleTest
         Assert.That(title.Contains("15 of 15"));
     }
 
-    [Test, Order(9)]
+    [Test, Order(10)]
     public void WhenLastQuestionButtonReadsOtherText()
     {
 
@@ -179,7 +193,7 @@ public class ExampleTest
         Assert.That(save.Contains("Send Questions"));
     }
 
-    [Test, Order(10)]
+    [Test, Order(11)]
     public void AnswerLastQuestionShouldReturnResults()
     {
         IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
@@ -196,7 +210,7 @@ public class ExampleTest
         Assert.That(results.Contains("Results"));
     }
 
-    [Test, Order(11)]
+    [Test, Order(12)]
     public void UsedEmailsShoulgoToResults()
     {
         driver.Navigate().Refresh();
