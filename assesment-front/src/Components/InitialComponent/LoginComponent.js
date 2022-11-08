@@ -7,11 +7,17 @@ function LoginComponent() {
   const emailRef = useRef(null);
   const emailTwoRef = useRef(null);
   const currentAppContext = useContext(AppContext);
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
 
   useEffect(() => {
     if (currentAppContext.questions.length == 0) {
       getQuestions();
-	  
     }
   }, []);
 
@@ -33,8 +39,10 @@ function LoginComponent() {
     if (
       emailRef.current.value === emailTwoRef.current.value &&
       emailRef.current.value != "" &&
-      emailTwoRef.current.value != ""
+      emailTwoRef.current.value != "" &&
+      validateEmail(emailRef.current.value)
     ) {
+      currentAppContext.setUserEmail(emailRef.current.value);
       currentAppContext.setStep(++currentAppContext.step);
     } else {
       document
