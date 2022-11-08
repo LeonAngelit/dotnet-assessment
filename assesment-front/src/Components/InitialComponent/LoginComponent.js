@@ -52,10 +52,16 @@ function LoginComponent() {
     document.getElementById("unmatch").classList.add("invisible");
     document.getElementById("registered").classList.add("invisible");
     document.getElementById("empty").classList.add("invisible");
+    document.getElementById("notAnEmail").classList.add("invisible");
 
     if (!validateEmpty()) {
       document.getElementById("empty").classList.remove("invisible");
 
+      return false;
+    }
+
+    if (!validateEmail(emailRef.current.value)) {
+      document.getElementById("notAnEmail").classList.remove("invisible");
       return false;
     }
 
@@ -76,9 +82,8 @@ function LoginComponent() {
           currentAppContext.setUserEmail(emailRef.current.value);
           currentAppContext.setStep(++currentAppContext.step);
         } else {
-          console.log(response.data)
           document.getElementById("registered").classList.remove("invisible");
-          currentAppContext.setResults(JSON.parse(response.data[0].answers))
+          currentAppContext.setResults(JSON.parse(response.data[0].answers));
           currentAppContext.setStep(3);
         }
       });
@@ -104,6 +109,9 @@ function LoginComponent() {
           <input type="submit" defaultValue="Accept" onClick={handleClick} />
         </div>
       </form>
+      <span className="errorSpan invisible" id="notAnEmail">
+        Write a valid email "example@example.com"
+      </span>
       <span className="errorSpan invisible" id="unmatch">
         The emails don't match
       </span>
