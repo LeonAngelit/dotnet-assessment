@@ -21,6 +21,12 @@ public class UserController : ControllerBase
         return Ok(userService.Get());
     }
 
+
+    [HttpGet("{email}")]
+    public IActionResult getByEmail(String email)
+    {
+        return Ok(userService.FindByEmail(email));
+    }
     [HttpPost]
     public IActionResult Post([FromBody] User user)
 

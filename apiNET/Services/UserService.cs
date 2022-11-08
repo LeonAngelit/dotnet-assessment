@@ -47,11 +47,20 @@ public class UserService : IUserService
 
         context.SaveChanges();
     }
+
+    public IQueryable<User> FindByEmail(String email)
+    {
+
+        var currentUser = from p in context.Users where p.email.Contains(email) select p;
+
+        return currentUser;
+    }
 }
 
 public interface IUserService
 {
     IEnumerable<User> Get();
+    IQueryable<User> FindByEmail(String email);
     void Save(User user);
     void Delete(int id);
     void Update(int id, User user);
