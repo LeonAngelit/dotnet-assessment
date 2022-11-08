@@ -27,17 +27,13 @@ public class ExampleTest
         IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
         IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
 
-
         Thread.Sleep(1000);
-
-
-
 
 
         driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
 
         Thread.Sleep(3000);
-        string error = driver.FindElement(By.XPath("//*[@id='root']/div/div/span")).Text;
+        string error = driver.FindElement(By.XPath("//*[@id='empty']")).Text;
 
         Assert.AreEqual(error, "The emails field cannot be empty");
     }
@@ -50,19 +46,18 @@ public class ExampleTest
         IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
         IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
 
-
+        emailOne.SendKeys("a");
         Thread.Sleep(1000);
-
-
-
-
+        emailTwo.SendKeys("a");
 
         driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
 
         Thread.Sleep(3000);
-        string error = driver.FindElement(By.XPath("//*[@id='root']/div/div/span")).Text;
-
-        Assert.AreEqual(error, "Write a valid email \"example@example.com\"");
+        IWebElement error = driver.FindElement(By.XPath("//*[@id='notAnEmail']"));
+        string errormsg = driver.FindElement(By.XPath("//*[@id='notAnEmail']")).Text;
+        Console.WriteLine("element" + error);
+        Console.WriteLine("error" + errormsg);
+        Assert.AreEqual(errormsg, "Write a valid email \"example@example.com\"");
     }
 
     [Test, Order(3)]
@@ -83,7 +78,7 @@ public class ExampleTest
         driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).Click();
 
         Thread.Sleep(3000);
-        string error = driver.FindElement(By.XPath("//*[@id='root']/div/div/span")).Text;
+        string error = driver.FindElement(By.XPath("//*[@id='unmatch']")).Text;
 
         Assert.AreEqual(error, "The emails don't match");
     }
@@ -111,7 +106,7 @@ public class ExampleTest
         Assert.That(title.Contains("Question"));
     }
 
-    [Test, Order(4)]
+    [Test, Order(5)]
     public void UserOnlySeesOneQuestion()
     {
 
@@ -128,7 +123,7 @@ public class ExampleTest
         Assert.That(questionsAmmount.Count == 1);
     }
 
-    [Test, Order(5)]
+    [Test, Order(6)]
     public void AnswerQuestionShouldReturnNextQuestion()
     {
 
@@ -146,7 +141,7 @@ public class ExampleTest
         Assert.That(title.Contains("2"));
     }
 
-    [Test, Order(6)]
+    [Test, Order(7)]
     public void AnswerAllQuestionsShouldReturnNextResults()
     {
         IWebElement save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input"));
@@ -169,9 +164,10 @@ public class ExampleTest
         Assert.That(results.Contains("Results"));
     }
 
-    [Test, Order(7)]
+    [Test, Order(8)]
     public void UsedEmailsShoulgoToResults()
     {
+        driver.Navigate().Refresh();
 
         IWebElement emailOne = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[1]/input"));
         IWebElement emailTwo = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[2]/input"));
