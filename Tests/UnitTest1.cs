@@ -168,7 +168,7 @@ public class ExampleTest
         Thread.Sleep(2000);
         string title = driver.FindElement(By.XPath("//*[@id='root']/div/div/h2")).Text;
 
-        Assert.That(title.Contains("15"));
+        Assert.That(title.Contains("15 of 15"));
     }
 
     [Test, Order(9)]
@@ -176,7 +176,8 @@ public class ExampleTest
     {
         Thread.Sleep(3000);
         string save = driver.FindElement(By.XPath("//*[@id='root']/div/div/form/div[3]/input")).GetProperty("value");
-        Assert.Equals("Send Questions", save);
+        Console.WriteLine(save);
+        Assert.That(save.Contains("Send Questions"));
     }
 
     [Test, Order(10)]
